@@ -54,7 +54,7 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: 'source-map',
   // In production, we only want to load the polyfills and the app code.
-  entry: [require.resolve('./polyfills'), paths.appIndexJs],
+  entry: [require.resolve('./polyfills'), 'whatwg-fetch', paths.appIndexJs,],
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -65,6 +65,7 @@ module.exports = {
     chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: publicPath,
+    libraryTarget: "amd",
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
       path
@@ -227,6 +228,18 @@ module.exports = {
       // Remember to add the new extension(s) to the "file" loader exclusion list.
     ],
   },
+  externals: [
+      function(context, request, callback) {
+          if (/^dojo/.test(request) ||
+              /^dojox/.test(request) ||
+              /^dijit/.test(request) ||
+              /^esri/.test(request)
+          ) {
+              return callback(null, "amd " + request);
+          }
+          callback();
+      }
+  ],
   plugins: [
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:

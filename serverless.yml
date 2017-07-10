@@ -8,6 +8,18 @@ provider:
 package:
   include:
 functions:
+  updateUserClick: 
+    handler: handler.updateUserClick
+    events:
+      - http:
+          path: updateUserClick/
+          method: PUT
+  getUserClicks: 
+    handler: handler.getUserClicks
+    events:
+      - http:
+          path: getUserClicks/
+          method: GET
 resources:
   Resources:
     pathmapping:

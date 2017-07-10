@@ -29,14 +29,6 @@ functions:
           cors: true
 resources:
   Resources:
-    pathmapping:
-      Type: AWS::ApiGateway::BasePathMapping
-      Properties:
-          BasePath: oauth2
-          DomainName: ${file(./.serverless.env.yml):${opt:stage}.aws.DOMAIN_NAME}
-          RestApiId: 
-            Ref: ApiGatewayRestApi
-          Stage: devmap
     mappinTable:
       Type: AWS::DynamoDB::Table
       Properties:

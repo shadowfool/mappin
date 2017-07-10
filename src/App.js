@@ -36,6 +36,7 @@ class App extends Component {
   }
 
   getClicks = () => {
+    console.log(Api)
     Api.getUserClicks()
     .then()
   }

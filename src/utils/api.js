@@ -13,7 +13,7 @@ class Api {
     };
 
     //this isn't actually what I want, but will do for now, stage should be used to key into an api config object. 
-    this.baseUrl = stage || 'https://api.hottake.me';
+    this.baseUrl = stage || 'https://v3i9k8clg7.execute-api.us-east-1.amazonaws.com/dev/';
   }
 
   getUserClicks = () => {
@@ -22,7 +22,7 @@ class Api {
       headers: this._defaultHeaders
     };
 
-    fetch( `${this.baseUrl}/getUserClicks`, config ) 
+    return fetch( `${this.baseUrl}/getUserClicks`, config ) 
     .then( res => res.json() )
     .catch( err => console.log( err ) )
   }
@@ -33,7 +33,7 @@ class Api {
       headers: this._defaultHeaders
     };
     
-    fetch( `${this.baseUrl}/updateUserClick`, config )
+    return fetch( `${this.baseUrl}/updateUserClick`, config )
     .then( res => res.json() )
     .catch( err => console.log( err ) )
   }

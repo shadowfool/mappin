@@ -18,14 +18,14 @@ functions:
     events:
       - http:
           path: updateUserClick/
-          method: PUT
+          method: post
           cors: true
   getUserClicks: 
     handler: handler.getUserClicks
     events:
       - http:
           path: getUserClicks/
-          method: GET
+          method: get
           cors: true
 resources:
   Resources:

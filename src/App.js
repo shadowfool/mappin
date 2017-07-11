@@ -3,8 +3,8 @@ import './App.css';
 import Api from './utils/api.js'
 
 //Esri related wrappers/libs 
-import EsriLoader from 'esri-loader-react';
 import { dojoRequire } from 'esri-loader';
+import EsriLoader from 'esri-loader-react';
 
 
 class App extends Component {
@@ -18,11 +18,14 @@ class App extends Component {
   }
 
   createMap = () => {
-    dojoRequire(['esri/Map', 'esri/views/MapView'], ( Map, MapView ) => { 
-      let mapRef = new MapView({
+    dojoRequire(['esri/Map', 'esri/views/MapView', "esri/layers/FeatureLayer"], ( Map, MapView, FeatureLayer ) => { 
+      let map = new Map( { basemap: 'topo' } ),
+      mapRef = new MapView({
         container: this.mapContainer,
-        map: new Map( { basemap: 'topo' } )
-      })
+        map
+      }),
+      featureLayer = new FeatureLayer({ url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3'});
+      map.add(featureLayer)
       this.setClickHandlers( mapRef );
     });
   }
@@ -36,7 +39,6 @@ class App extends Component {
   }
 
   getClicks = () => {
-    console.log(Api)
     Api.getUserClicks()
     .then()
   }

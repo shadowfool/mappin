@@ -14,7 +14,7 @@ const AWS = require('aws-sdk'),
 module.exports.updateUserClick = (event, context, cb) => {
   //TODO type check those toStrings
   const body = JSON.parse(event.body), 
-  dbParams = {
+  params = {
     Item: {
       "latLong": {
         S: body.latLong
@@ -31,13 +31,32 @@ module.exports.updateUserClick = (event, context, cb) => {
     }, 
     TableName: "mappinTable"
   };
-  db.putItem(dbParams, (e,d) => {
-     console.log(e, d)
-     cb(null, { statusCode: 200, headers, body: JSON.stringify({message: 'updated db'} ) })
+  db.putItem(params, (e,d) => {
+     if(e) console.log(e)
+     cb(null, { statusCode: 200, headers, body: JSON.stringify({message: 'Updated DB w/ new entry'} ) })
   })
 }
 
 module.exports.getUserClicks = (event, context, cb) => {
-
-  cb(null, {statusCode: 200, headers })
+  const params = {
+    ExpressionAttributeNames: {
+      "#LT": "latitude", 
+      "#LO": "longitude",
+      "#A": "added"
+    }, 
+    ExpressionAttributeValues: {
+      ":m": {
+        N: "-90"
+     }
+    }, 
+    FilterExpression: "latitude > :m",
+    ProjectionExpression: "#LT, #LO, #A", 
+    TableName: "mappinTable"
+  };
+  db.scan(params, (e, d) => {
+    if(e) console.log(e)
+    else {
+      cb(null, {statusCode: 200, headers, body: JSON.stringify(d) })
+    }
+  });
 }

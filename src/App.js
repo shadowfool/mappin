@@ -24,7 +24,9 @@ class App extends Component {
         container: this.mapContainer,
         map
       }),
-      featureLayer = new FeatureLayer({ url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3'});
+      featureLayer = new FeatureLayer({ 
+        url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3'
+      });
       map.add(featureLayer)
       this.setClickHandlers( mapRef );
     });
@@ -35,12 +37,23 @@ class App extends Component {
       const convertedPoints = map.toMap({y: event.y, x: event.x }),
       { latitude, longitude } = convertedPoints;
       Api.updateUserClick({ latitude, longitude })
+      .then( () => {
+        this.getClicks()
+      })
     })
   }
 
   getClicks = () => {
     Api.getUserClicks()
-    .then()
+    .then( ( data = {} ) => {
+      console.log(data)
+      let transformedClicks = this.transformClicks( data.Items );
+      this.setState( { clicks: transformedClicks } )
+    })
+  }
+
+  transformClicks = ( clicks = [] ) => {
+    console.log(clicks)
   }
 
   render() {

@@ -27,6 +27,13 @@ functions:
           path: getUserClicks/
           method: get
           cors: true
+  addClickToState:
+    handler: handler.addClickToState
+    events:
+      -http:
+          path: addClickToState/
+          method: post
+          cors: true
 resources:
   Resources:
     mappinTable:
@@ -38,6 +45,19 @@ resources:
             AttributeType: S
         KeySchema:
           - AttributeName: latLong
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    statesTables:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: statesTables
+        AttributeDefinitions:
+          - AttributeName: stateId
+            AttributeType: N
+        KeySchema:
+          - AttributeName: stateId
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1

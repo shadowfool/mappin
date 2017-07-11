@@ -33,7 +33,7 @@ module.exports.updateUserClick = (event, context, cb) => {
   };
   db.putItem(params, (e,d) => {
      if(e) console.log(e)
-     cb(null, { statusCode: 200, headers, body: JSON.stringify({message: 'Updated DB w/ new entry'} ) })
+     else cb(null, { statusCode: 200, headers, body: JSON.stringify({message: 'Updated DB w/ new entry'} ) })
   })
 }
 
@@ -59,4 +59,30 @@ module.exports.getUserClicks = (event, context, cb) => {
       cb(null, {statusCode: 200, headers, body: JSON.stringify(d) })
     }
   });
+}
+
+module.exports.addClickToState = (event, context, cb) => {
+  // TODO this is half finished, need to figure out update or create at 1 for updateItem
+  // const body = JSON.parse(event.body),
+  // params = {
+  //    Key: {
+  //     stateId: {
+  //       N: body.stateId
+  //     }
+  //   },
+  //   AttributeUpdates: {
+
+  //   },
+  //   ExpressionAttributeValues: {
+  //     ":a": {
+  //       N: "1"
+  //     }
+  //   },
+  //   UpdateExpression: "ADD #S :m",
+  //   TableName: "statesTables"
+  // }
+  // db.updateItem(params, (e, d) => {
+  //   if(e) console.log(e)
+  //   else cb(null, {statusCode: 200, headers, body: JSON.stringify(d) })
+  // })
 }

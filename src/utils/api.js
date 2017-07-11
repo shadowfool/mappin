@@ -3,6 +3,7 @@ import 'whatwg-fetch'
 class Api {
   // eventually I'd want to have seperate dev api's but there's not enough time for that
   // constructor is going to default to my only api url for now. 
+  // need that functionf for unified catch.
   constructor( stage ) {
     //More CORS issues than I care to admit
     this._defaultHeaders = {
@@ -43,6 +44,18 @@ class Api {
     .catch( err => console.log( err ) )
   }
 
+  addClickToState = ( id = 0 ) => {
+    let body = { stateId: id },
+    config = {
+      method: 'POST',
+      headers: this._defaultHeaders,
+      body: JSON.stringify(body)
+    };
+
+    return fetch( `${this.baseUrl}/updateUserClick`, config )
+    .then( res => res.json() )
+    .catch( err => console.log( err ) )
+  } 
 }
 
 export default new Api()

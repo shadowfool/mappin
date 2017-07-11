@@ -52,7 +52,7 @@ class Api {
       body: JSON.stringify(body)
     };
 
-    return fetch( `${this.baseUrl}/updateUserClick`, config )
+    return fetch( `${this.baseUrl}/addClickToState`, config )
     .then( res => res.json() )
     .catch( err => console.log( err ) )
   } 

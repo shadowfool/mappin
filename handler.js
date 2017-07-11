@@ -63,26 +63,27 @@ module.exports.getUserClicks = (event, context, cb) => {
 
 module.exports.addClickToState = (event, context, cb) => {
   // TODO this is half finished, need to figure out update or create at 1 for updateItem
-  // const body = JSON.parse(event.body),
-  // params = {
-  //    Key: {
-  //     stateId: {
-  //       N: body.stateId
-  //     }
-  //   },
-  //   AttributeUpdates: {
-
-  //   },
-  //   ExpressionAttributeValues: {
-  //     ":a": {
-  //       N: "1"
-  //     }
-  //   },
-  //   UpdateExpression: "ADD #S :m",
-  //   TableName: "statesTables"
-  // }
-  // db.updateItem(params, (e, d) => {
-  //   if(e) console.log(e)
-  //   else cb(null, {statusCode: 200, headers, body: JSON.stringify(d) })
-  // })
+  const body = JSON.parse(event.body),
+  params = {
+     Key: {
+      stateId: {
+        N: body.stateId.toString()
+      }
+    },
+    ExpressionAttributeNames: {
+      "#C": "clicks", 
+    },
+    ExpressionAttributeValues: {
+      ":a": {
+        N: "1"
+      }
+    },
+    UpdateExpression: "ADD #C :a",
+    TableName: "statesTables"
+  };
+  
+  db.updateItem(params, (e, d) => {
+    if(e) console.log(e)
+    else cb(null, {statusCode: 200, headers, body: JSON.stringify(d) })
+  })
 }

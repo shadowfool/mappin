@@ -6,6 +6,9 @@ import Api from './utils/api.js'
 import { dojoRequire } from 'esri-loader';
 import EsriLoader from 'esri-loader-react';
 
+//This may have been easier for rendering points, but I don't have time to attempt to swap it out and figure out its api
+// import esri from 'esri-leaflet'
+
 
 class App extends Component {
   constructor( props ) {
@@ -28,7 +31,6 @@ class App extends Component {
       featureLayer = new FeatureLayer({ 
         url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3'
       });
-      featureLayer.queryFeatures().then( features => console.log(features))
       map.add(featureLayer)
       this.setClickHandlers( mapRef );
     });
@@ -46,10 +48,9 @@ class App extends Component {
       })
 
       map.hitTest(event.screenPoint).then( (response) => {
-        let result = response.results[0] || { graphic: { attributes: {} } };
-
+        let result = response.results[0]
         // This lambda function is not finished
-        // Api.addClickToState( result.graphic.attributes.OBJECTID )
+        if(result) Api.addClickToState( result.graphic.attributes.OBJECTID )
       })
     })
   }
